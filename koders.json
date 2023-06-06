@@ -1,0 +1,47 @@
+{
+    "mentors": [],
+    "koders": [
+    {
+        "name": "Christian",
+        "age": "25",
+        "module": "Backend",
+        "generation": "25Js"
+    },
+    {
+        "name": "Luis Daniel",
+        "age": "25",
+        "module": "React",
+        "generation": "25Js"
+    },
+    {
+        "name": "Daniel Flores",
+        "age": "22",
+        "module": "Javascript",
+        "generation": "25Js"
+    },
+    {
+        "name": "Karla",
+        "age": "22",
+        "module": "React",
+        "generation": "25Js"
+    },
+    {
+        "name": "Luis Daniel",
+        "age": "24",
+        "module": "Enmaquetado",
+        "generation": "25Js"
+    },
+    {
+        "name": "Pao",
+        "age": "22",
+        "module": "AWS",
+        "generation": "25Js"
+    },
+    {
+        "name": "Damian",
+        "age": "23",
+        "module": "Google Cloud",
+        "generation": "25Js"
+    }
+]
+}
