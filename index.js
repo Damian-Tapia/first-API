@@ -71,8 +71,8 @@ app.get("/mentorsAge/:age", async (request,response)=> {
     }
 })
 
+// agregar koders a un obj
 app.post("/koders", async (request,response)=> {
-    
     const db = await fsPromises.readFile("./koders.json","utf8")
     const parseDB = JSON.parse(db);
     const newKoder = {
@@ -84,6 +84,22 @@ app.post("/koders", async (request,response)=> {
     response.json(newKoder)
 })
 
+app.patch("/koders/:id",async (request,response)=> {
+    const {id} = request.params
+    const db = await fsPromises.readFile("./koders.json","utf8")
+    const parseDB = JSON.parse(db);
+
+    let index = parseDB.koders.findIndex(koder => koder.id === parseInt(id))
+    const updateKoder = {
+        ...parseDB.koders[index],
+        ...request.body
+    }
+    //esto ya actualiza en bd
+    parseDB.koders[index] = updateKoder
+    // sobre escribe en bd
+    await fsPromises.writeFile("./koders.json",JSON.stringify(parseDB,"\n",2));
+    response.json(updateKoder)
+})
 
 app.listen(8080,()=> {
     console.log("El servidor esta arriba")
