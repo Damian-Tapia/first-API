@@ -4,9 +4,14 @@ const fsPromises = require ("fs/promises")
 const { request } = require("http")
 const { parse } = require("path")
 
-// app.get ("/",(request,response) => {
-//     response.send("Endpoint de HOME en API funciona")
-// })
+// Middleware  parsear todo lo que el cliente me mande a .json
+
+app.use(express.json())
+
+//
+app.get ("/",(request,response) => {
+    response.send("Endpoint de HOME en API funciona")
+})
 
 // get the json of koders
 app.get("/koders",async (request,response)=> {
@@ -44,7 +49,7 @@ app.get("/mentors", async (request,response)=> {
     const parseDB = JSON.parse(db);
     // console.log(parseDB)
     const filteredMentor = parseDB.mentors.filter(mentor => name.toLowerCase() === mentor.name.toLowerCase())
-    if (filteredMentor.lenght === 0){
+    if (filteredMentor.length === 0){
         response.json(parseDB.mentors)
     } else {
         response.json(filteredMentor)
@@ -53,17 +58,30 @@ app.get("/mentors", async (request,response)=> {
 
 app.get("/mentorsAge/:age", async (request,response)=> {
     const {age} = request.params
-    console.log(age)
+    // console.log(age)
     const db = await fsPromises.readFile("./koders.json","utf8");
     const parseDB = JSON.parse(db);
     // console.log(parseDB)
     const filterMentor = parseDB.mentors.filter(mentor => age === mentor.age)
     console.log(filterMentor)
-    if (filterMentor.lenght === 0){
-        response.json(parseDB.mentors)
+    if (age && filterMentor.length === 0){
+        response.json({message:"El mentor con esa edad no fue encontrado"})
     } else {
         response.json(filterMentor)
     }
+})
+
+app.post("/koders", async (request,response)=> {
+    
+    const db = await fsPromises.readFile("./koders.json","utf8")
+    const parseDB = JSON.parse(db);
+    const newKoder = {
+        id: parseDB.koders.length + 1,
+        ...request.body,
+    }
+    parseDB.koders.push(newKoder)
+    await fsPromises.writeFile("./koders.json",JSON.stringify(parseDB,"\n",2));
+    response.json(newKoder)
 })
 
 
