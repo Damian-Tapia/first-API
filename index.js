@@ -101,6 +101,23 @@ app.patch("/koders/:id",async (request,response)=> {
     response.json(updateKoder)
 })
 
+
+app.delete("/koders/:id", async (request,response) => {
+    const {id} = request.params
+    const db = await fsPromises.readFile("./koders.json","utf8")
+    const parseDB = JSON.parse(db);
+
+
+    let index = parseDB.koders.findIndex(koder => koder.id === parseInt(id))
+    if (index.length === 0) {
+        response.json(parseDB)
+    } else {
+        parseDB.koders.splice(index,1)
+        response.json(parseDB.koders)
+    }
+})
+
+
 app.listen(8080,()=> {
     console.log("El servidor esta arriba")
 })
