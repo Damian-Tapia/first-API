@@ -2,24 +2,70 @@ const express = require ("express")
 const app = express()
 const fsPromises = require ("fs/promises")
 const { request } = require("http")
+const { parse } = require("path")
 
-app.get ("/",(request,response) => {
-    response.send("Endpoint de HOME en API funciona")
-})
+// app.get ("/",(request,response) => {
+//     response.send("Endpoint de HOME en API funciona")
+// })
+
 // get the json of koders
 app.get("/koders",async (request,response)=> {
     const db = await fsPromises.readFile("./koders.json","utf8");
     const parseDB = JSON.parse(db);
     response.json(parseDB)
 })
+
 // get koder by name
 app.get("/koders/:name",async(request,response)=> {
     const {name} = request.params
+    console.log(name)
     const db = await fsPromises.readFile("./koders.json","utf8")
     const parseDB = JSON.parse(db);
     const filteredKoder = parseDB.koders.filter(koder => koder.name.toLowerCase() === name.toLowerCase())[0]
     response.json(filteredKoder)
 })
+
+app.get("/koders", async (request,response)=> {
+    const {module} = request.query
+    const db = await fsPromises.readFile("./koders.json","utf8");
+    const parseDB = JSON.parse(db);
+    const filteredKoders = parseDB.koders.filter(koder => module === koder.module)
+    if (filteredKoders.lenght === 0){
+        response.json(parseDB.koders)
+    } else {
+        response.json(filteredKoders)
+    }
+})
+
+app.get("/mentors", async (request,response)=> {
+    const {name} = request.query
+    // console.log(name)
+    const db = await fsPromises.readFile("./koders.json","utf8");
+    const parseDB = JSON.parse(db);
+    // console.log(parseDB)
+    const filteredMentor = parseDB.mentors.filter(mentor => name.toLowerCase() === mentor.name.toLowerCase())
+    if (filteredMentor.lenght === 0){
+        response.json(parseDB.mentors)
+    } else {
+        response.json(filteredMentor)
+    }
+})
+
+app.get("/mentorsAge/:age", async (request,response)=> {
+    const {age} = request.params
+    console.log(age)
+    const db = await fsPromises.readFile("./koders.json","utf8");
+    const parseDB = JSON.parse(db);
+    // console.log(parseDB)
+    const filterMentor = parseDB.mentors.filter(mentor => age === mentor.age)
+    console.log(filterMentor)
+    if (filterMentor.lenght === 0){
+        response.json(parseDB.mentors)
+    } else {
+        response.json(filterMentor)
+    }
+})
+
 
 app.listen(8080,()=> {
     console.log("El servidor esta arriba")

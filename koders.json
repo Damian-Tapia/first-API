@@ -1,5 +1,38 @@
 {
-    "mentors": [],
+    "mentors": [
+        {
+            "name":"Charles",
+            "age":"28"
+        },
+        {
+            "name":"Samuel",
+            "age":"29"
+        },
+        {
+            "name":"Israel",
+            "age":"30"
+        },
+        {
+            "name":"Ale",
+            "age":"26"
+        },
+        {
+            "name":"Luis",
+            "age":"28"
+        },
+        {
+            "name":"Pancho",
+            "age":"29"
+        },
+        {
+            "name":"Jose",
+            "age":"24"
+        },
+        {
+            "name":"Mar",
+            "age":"32"
+        }
+    ],
     "koders": [
     {
         "name": "Christian",
